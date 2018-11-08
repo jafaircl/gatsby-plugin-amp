@@ -47,11 +47,6 @@ export const onPreRenderHTML = (
         />
       </noscript>,
       <style amp-custom="" dangerouslySetInnerHTML={{ __html: styles }} />,
-      <link
-        rel="canonical"
-        href={`${canonicalBaseUrl}${pathname.replace(pathIdentifier, "")}`}
-      />,
-      ...headComponents.filter(x => x.type !== "style" && x.type !== "script"),
       ...components.map(x => (
         <script
           async
@@ -68,23 +63,9 @@ export const onPreRenderHTML = (
       ) : (
         <Fragment />
       ),
-      useAmpClientIdApi ? (
-        <meta name="amp-google-client-id-api" content="googleanalytics" />
-      ) : (
-        <Fragment />
-      )
+      ...headComponents.filter(x => x.type !== "style" && x.type !== "script")
     ]);
     replacePreBodyComponents([
-      googleTagManager !== undefined ? (
-        <amp-analytics
-          config={`https://www.googletagmanager.com/amp.json?id=${
-            googleTagManager.containerId
-          }&gtm.url=SOURCE_URL`}
-          data-credentials="include"
-        />
-      ) : (
-        <Fragment />
-      ),
       ...preBodyComponents.filter(x => x.key !== "plugin-google-tagmanager")
     ]);
     replacePostBodyComponents(
@@ -105,11 +86,47 @@ export const onPreRenderHTML = (
 };
 
 export const onRenderBody = (
-  { setHtmlAttributes, pathname },
-  { pathIdentifier }
+  {
+    setHeadComponents,
+    setHtmlAttributes,
+    setPreBodyComponents,
+    setPostBodyComponents,
+    pathname
+  },
+  {
+    canonicalBaseUrl,
+    components = [],
+    excludedPaths = [],
+    googleTagManager,
+    pathIdentifier,
+    useAmpClientIdApi = false
+  }
 ) => {
   const isAmp = pathname.indexOf(pathIdentifier) > -1;
   if (isAmp) {
     setHtmlAttributes({ amp: "" });
+    setHeadComponents([
+      <link
+        rel="canonical"
+        href={`${canonicalBaseUrl}${pathname.replace(pathIdentifier, "")}`}
+      />,
+      useAmpClientIdApi ? (
+        <meta name="amp-google-client-id-api" content="googleanalytics" />
+      ) : (
+        <Fragment />
+      )
+    ]);
+    setPreBodyComponents([
+      googleTagManager !== undefined ? (
+        <amp-analytics
+          config={`https://www.googletagmanager.com/amp.json?id=${
+            googleTagManager.containerId
+          }&gtm.url=SOURCE_URL`}
+          data-credentials="include"
+        />
+      ) : (
+        <Fragment />
+      )
+    ]);
   }
 };
