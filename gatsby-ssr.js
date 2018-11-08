@@ -16,13 +16,13 @@ export const onPreRenderHTML = (
   },
   {
     canonicalBaseUrl,
-    components,
-    excludedPaths,
+    components = [],
+    excludedPaths = [],
     googleTagManager,
-    pathIdentifier
+    pathIdentifier,
+    useAmpClientIdApi = false
   }
 ) => {
-  const _excludedPaths = excludedPaths === undefined ? [] : excludedPaths;
   const headComponents = getHeadComponents();
   const preBodyComponents = getPreBodyComponents();
   const postBodyComponents = getPostBodyComponents();
@@ -52,21 +52,24 @@ export const onPreRenderHTML = (
         href={`${canonicalBaseUrl}${pathname.replace(pathIdentifier, "")}`}
       />,
       ...headComponents.filter(x => x.type !== "style" && x.type !== "script"),
-      ...(components !== undefined
-        ? components.map(x => (
-            <script
-              async
-              custom-element={x}
-              src={`https://cdn.ampproject.org/v0/${x}-0.1.js`}
-            />
-          ))
-        : []),
+      ...components.map(x => (
+        <script
+          async
+          custom-element={x}
+          src={`https://cdn.ampproject.org/v0/${x}-0.1.js`}
+        />
+      )),
       googleTagManager !== undefined ? (
         <script
           async
           custom-element="amp-analytics"
           src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"
         />
+      ) : (
+        <Fragment />
+      ),
+      useAmpClientIdApi ? (
+        <meta name="amp-google-client-id-api" content="googleanalytics" />
       ) : (
         <Fragment />
       )
@@ -87,7 +90,7 @@ export const onPreRenderHTML = (
     replacePostBodyComponents(
       postBodyComponents.filter(x => x.type !== "script")
     );
-  } else if (_excludedPaths.indexOf(pathname.replace(pathIdentifier, "")) < 0) {
+  } else if (excludedPaths.indexOf(pathname.replace(pathIdentifier, "")) < 0) {
     replaceHeadComponents([
       <link
         rel="amphtml"
