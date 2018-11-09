@@ -11,16 +11,14 @@ export const onPreRenderHTML = (
     replacePreBodyComponents,
     getPostBodyComponents,
     replacePostBodyComponents,
-    pathname,
-    pathPrefix
+    pathname
   },
   {
     canonicalBaseUrl,
     components = [],
     excludedPaths = [],
     googleTagManager,
-    pathIdentifier,
-    useAmpClientIdApi = false
+    pathIdentifier
   }
 ) => {
   const headComponents = getHeadComponents();
@@ -86,17 +84,9 @@ export const onPreRenderHTML = (
 };
 
 export const onRenderBody = (
-  {
-    setHeadComponents,
-    setHtmlAttributes,
-    setPreBodyComponents,
-    setPostBodyComponents,
-    pathname
-  },
+  { setHeadComponents, setHtmlAttributes, setPreBodyComponents, pathname },
   {
     canonicalBaseUrl,
-    components = [],
-    excludedPaths = [],
     googleTagManager,
     pathIdentifier,
     useAmpClientIdApi = false
