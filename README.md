@@ -6,7 +6,7 @@ Formats AMP-specific pages by removing javascript, combining styles and adding b
 
 `npm install --save gatsby-plugin-amp`
 
-# How to use
+## How to use
 
 Create AMP-specific templates. Assume you have the following blog post template in `post.js`
 
@@ -101,13 +101,13 @@ Add the plugin to the plugins array in your `gatsby-config.js`
 
 When your site builds, your page in the `/amp` directory should now be a valid AMP page
 
-# Options
+## Options
 
 **analytics** `{Object}`
 If you want to include any `amp-analytics` tags, set that configuration here.
 
 &nbsp;&nbsp;&nbsp;&nbsp;**type** `{String}`
-&nbsp;&nbsp;&nbsp;&nbsp;Your analytics type. See the list of available vendors [here](https://www.ampproject.org/docs/analytics/analytics-vendors). 
+&nbsp;&nbsp;&nbsp;&nbsp;Your analytics type. See the list of available vendors [here](https://www.ampproject.org/docs/analytics/analytics-vendors).
 
 &nbsp;&nbsp;&nbsp;&nbsp;**dataCredentials** `{String}`
 &nbsp;&nbsp;&nbsp;&nbsp;You value for the `data-credentials` attribute. Omit to remove the attribute.
@@ -142,3 +142,14 @@ The url segment which identifies AMP pages. If your regular page is at `http://w
 
 **useAmpClientIdApi** `{Boolean}`
 If you are using a Client ID for Google Analytics, you can use the [Google AMP Client ID](https://support.google.com/analytics/answer/7486764) to determine if events belong to the same user when they visit your site on AMP and non-AMP pages. Set this to `true` if you would like to include the necessary meta tag in your AMP pages. You can read more about this concept [here](https://www.simoahava.com/analytics/accelerated-mobile-pages-via-google-tag-manager/#2-1-client-id)
+
+## Caveats
+
+The standard HTML template that gatsby uses will cause a validation error because it is missing `minimum-scale=1` in the meta viewport tag. You can supply your own template by creating a `src/html.js` file. Then you can change the meta viewport tag. The default template that gatsby uses can be found [here](https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby/cache-dir/default-html.js).
+
+```html
+<!-- Original -->
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<!-- Replacement -->
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, shrink-to-fit=no" />
+```
