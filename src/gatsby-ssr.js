@@ -1,4 +1,6 @@
 import React, { Fragment } from "react";
+import { renderToString } from "react-dom/server";
+import { JSDOM } from "jsdom";
 
 const ampBoilerplate = `body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}`;
 const ampNoscriptBoilerplate = `body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}`;
@@ -130,5 +132,29 @@ export const onRenderBody = (
         <Fragment />
       )
     ]);
+  }
+};
+
+export const replaceRenderer = (
+  { bodyComponent, replaceBodyHTMLString, pathname },
+  { pathIdentifier }
+) => {
+  const isAmp = pathname.indexOf(pathIdentifier) > -1;
+  if (isAmp) {
+    const bodyHTML = renderToString(bodyComponent);
+    const dom = new JSDOM(bodyHTML);
+    const document = dom.window.document;
+    const images = [].slice.call(document.getElementsByTagName("img"));
+    images.forEach(image => {
+      const ampImage = document.createElement("amp-img");
+      const attributes = Object.keys(image.attributes);
+      const includedAttributes = attributes.map(key => {
+        const attribute = image.attributes[key];
+        ampImage.setAttribute(attribute.name, attribute.value);
+        return attribute.name;
+      });
+      image.parentNode.replaceChild(ampImage, image);
+    });
+    replaceBodyHTMLString(document.documentElement.outerHTML);
   }
 };
