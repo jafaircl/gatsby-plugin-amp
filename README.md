@@ -103,8 +103,8 @@ By default, this plugin will create `rel="amphtml"` links in all pages. If there
 
 **googleTagManager** `{Object}`
 If you use Google Tag Manager, you can use this to set your options. The plugin will include the `amp-analytics` script and create your `amp-analytics` tag. You can read more about `amp-analytics` [here](https://www.ampproject.org/docs/reference/components/amp-analytics)
-    **containerId** `{String}`
-    Your GTM container ID.
+&nbsp;&nbsp;&nbsp;&nbsp;**containerId** `{String}`
+&nbsp;&nbsp;&nbsp;&nbsp;Your GTM container ID.
 
 **pathIdentifier** `{String}`
 The url segment which identifies AMP pages. If your regular page is at `http://www.example.com/blog/my-awesome-post` and your AMP page is at `http://www.example.com/amp/blog/my-awesome-post`, your pathIdentifier should be `/amp/`
