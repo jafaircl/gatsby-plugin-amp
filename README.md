@@ -76,6 +76,20 @@ Add the plugin to the plugins array in your `gatsby-config.js`
 {
   resolve: `gatsby-plugin-amp`,
   options: {
+    analytics: {
+      type: 'gtag',
+      dataCredentials: 'include',
+      config: {
+        vars: {
+          gtag_id: <GA_TRACKING_ID>,
+          config: {
+            <GA_TRACKING_ID>: {
+              page_location: '{{pathname}}'
+            },
+          },
+        },
+      },
+    },
     canonicalBaseUrl: 'http://www.example.com/',
     components: ['amp-form'],
     excludedPaths: ['/404.html', '/'],
@@ -92,6 +106,31 @@ When your site builds, your page in the `/amp` directory should now be a valid A
 
 # Options
 
+**analytics** `{Object}`
+If you want to include any `amp-analytics` tags, set that configuration here.
+
+&nbsp;&nbsp;&nbsp;&nbsp;**type** `{String}`
+&nbsp;&nbsp;&nbsp;&nbsp;Your analytics type. See the list of available vendors [here](https://www.ampproject.org/docs/analytics/analytics-vendors). 
+
+&nbsp;&nbsp;&nbsp;&nbsp;**dataCredentials** `{String}`
+&nbsp;&nbsp;&nbsp;&nbsp;You value for the `data-credentials` attribute. Omit to remove the attribute.
+
+&nbsp;&nbsp;&nbsp;&nbsp;**config** `{Object | String}`
+&nbsp;&nbsp;&nbsp;&nbsp;This can be either an object containing your analytics configuration or a url to your analytics configuration. If you use Google Analytics gtag, your cofiguration might look like this:
+
+```javascript
+vars: {
+  gtag_id: <GA_TRACKING_ID>,
+  config: {
+    <GA_TRACKING_ID>: {
+      page_location: '{{pathname}}'
+    },
+  },
+},
+```
+
+&nbsp;&nbsp;&nbsp;&nbsp; If you use a tag manager, your config would simply be a url like `https://www.googletagmanager.com/amp.json?id=GTM-1234567&amp;gtm.url=SOURCE_URL`. You can use double curly braces to interpolate the pathname into a configuration value e.g. `page_location: '{{pathname}}'`. See [here](https://www.ampproject.org/docs/reference/components/amp-analytics) to learn more about `amp-analytics` configurations.
+
 **canonicalBaseUrl** `{String}`
 The base URL for your site. This will be used to create a `rel="canonical"` link in your amp template and `rel="amphtml"` link in your base page.
 
@@ -100,11 +139,6 @@ The components you will need for your AMP templates. Read more about the availab
 
 **excludedPaths**`{Array<String>}`
 By default, this plugin will create `rel="amphtml"` links in all pages. If there are pages you would like to not have those links, include them here. *this may go away if a way can be found to programatically exclude pages based on whether or not they have an AMP equivalent. But for now, this will work*
-
-**googleTagManager** `{Object}`
-If you use Google Tag Manager, you can use this to set your options. The plugin will include the `amp-analytics` script and create your `amp-analytics` tag. You can read more about `amp-analytics` [here](https://www.ampproject.org/docs/reference/components/amp-analytics)
-&nbsp;&nbsp;&nbsp;&nbsp;**containerId** `{String}`
-&nbsp;&nbsp;&nbsp;&nbsp;Your GTM container ID.
 
 **pathIdentifier** `{String}`
 The url segment which identifies AMP pages. If your regular page is at `http://www.example.com/blog/my-awesome-post` and your AMP page is at `http://www.example.com/amp/blog/my-awesome-post`, your pathIdentifier should be `/amp/`

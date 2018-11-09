@@ -3,6 +3,9 @@ import React, { Fragment } from "react";
 const ampBoilerplate = `body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}`;
 const ampNoscriptBoilerplate = `body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}`;
 
+const interpolate = (str, map) =>
+  str.replace(/{{\s*[\w\.]+\s*}}/g, match => map[match.replace(/[{}]/g, "")]);
+
 export const onPreRenderHTML = (
   {
     getHeadComponents,
@@ -14,10 +17,10 @@ export const onPreRenderHTML = (
     pathname
   },
   {
+    analytics,
     canonicalBaseUrl,
     components = [],
     excludedPaths = [],
-    googleTagManager,
     pathIdentifier
   }
 ) => {
@@ -52,7 +55,7 @@ export const onPreRenderHTML = (
           src={`https://cdn.ampproject.org/v0/${x}-0.1.js`}
         />
       )),
-      googleTagManager !== undefined ? (
+      analytics !== undefined ? (
         <script
           async
           custom-element="amp-analytics"
@@ -85,12 +88,7 @@ export const onPreRenderHTML = (
 
 export const onRenderBody = (
   { setHeadComponents, setHtmlAttributes, setPreBodyComponents, pathname },
-  {
-    canonicalBaseUrl,
-    googleTagManager,
-    pathIdentifier,
-    useAmpClientIdApi = false
-  }
+  { analytics, canonicalBaseUrl, pathIdentifier, useAmpClientIdApi = false }
 ) => {
   const isAmp = pathname.indexOf(pathIdentifier) > -1;
   if (isAmp) {
@@ -107,13 +105,27 @@ export const onRenderBody = (
       )
     ]);
     setPreBodyComponents([
-      googleTagManager !== undefined ? (
+      analytics != undefined ? (
         <amp-analytics
-          config={`https://www.googletagmanager.com/amp.json?id=${
-            googleTagManager.containerId
-          }&gtm.url=SOURCE_URL`}
-          data-credentials="include"
-        />
+          type={analytics.type}
+          data-credentials={analytics.dataCredentials}
+          config={
+            typeof analytics.config === "string" ? analytics.config : undefined
+          }
+        >
+          {typeof analytics.config === "string" ? (
+            <Fragment />
+          ) : (
+            <script
+              type="application/json"
+              dangerouslySetInnerHTML={{
+                __html: interpolate(JSON.stringify(analytics.config), {
+                  pathname
+                })
+              }}
+            />
+          )}
+        </amp-analytics>
       ) : (
         <Fragment />
       )
