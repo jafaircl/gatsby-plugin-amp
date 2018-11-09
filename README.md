@@ -93,9 +93,6 @@ Add the plugin to the plugins array in your `gatsby-config.js`
     canonicalBaseUrl: 'http://www.example.com/',
     components: ['amp-form'],
     excludedPaths: ['/404.html', '/'],
-    googleTagManager: {
-      containerId: 'GTM-1234567',
-    },
     pathIdentifier: '/amp/',
     useAmpClientIdApi: true,
   },
