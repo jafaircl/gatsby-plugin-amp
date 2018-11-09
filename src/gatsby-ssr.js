@@ -136,25 +136,56 @@ export const onRenderBody = (
 };
 
 export const replaceRenderer = (
-  { bodyComponent, replaceBodyHTMLString, pathname },
+  { bodyComponent, replaceBodyHTMLString, setHeadComponents, pathname },
   { pathIdentifier }
 ) => {
+  const defaults = {
+    image: {
+      width: 640,
+      height: 475,
+      layout: "responsive"
+    }
+  };
+  const headComponents = [];
   const isAmp = pathname.indexOf(pathIdentifier) > -1;
   if (isAmp) {
     const bodyHTML = renderToString(bodyComponent);
     const dom = new JSDOM(bodyHTML);
     const document = dom.window.document;
+
     const images = [].slice.call(document.getElementsByTagName("img"));
     images.forEach(image => {
-      const ampImage = document.createElement("amp-img");
+      let ampImage;
+      if (image.src.indexOf(".gif") > -1) {
+        ampImage = document.createElement("amp-anim");
+        headComponents.push("amp-anim");
+      } else {
+        ampImage = document.createElement("amp-img");
+      }
       const attributes = Object.keys(image.attributes);
       const includedAttributes = attributes.map(key => {
         const attribute = image.attributes[key];
         ampImage.setAttribute(attribute.name, attribute.value);
         return attribute.name;
       });
+      Object.keys(defaults.image).forEach(key => {
+        if (includedAttributes.indexOf(key) === -1) {
+          ampImage.setAttribute(key, defaults.image[key]);
+        }
+      });
       image.parentNode.replaceChild(ampImage, image);
     });
+    setHeadComponents(
+      [...new Set(headComponents)].map(x => (
+        <Fragment>
+          <script
+            async
+            custom-element={x}
+            src={`https://cdn.ampproject.org/v0/${x}-0.1.js`}
+          />
+        </Fragment>
+      ))
+    );
     replaceBodyHTMLString(document.documentElement.outerHTML);
   }
 };
