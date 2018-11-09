@@ -12,6 +12,7 @@
   "author": "Jonathan Faircloth",
   "license": "MIT",
   "dependencies": {
+    "jsdom": "^13.0.0",
     "react": "^16.6.1"
   },
   "keywords": [
