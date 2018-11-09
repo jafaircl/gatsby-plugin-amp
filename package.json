@@ -1,10 +1,12 @@
 {
   "name": "gatsby-plugin-amp",
-  "version": "0.1.8",
+  "version": "0.1.15",
   "description": "A gatsby plugin for scaffolding AMP pages",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src --out-dir . --ignore **/__tests__",
+    "prepare": "npm run build",
+    "watch": "babel -w src --out-dir . --ignore **/__tests__",
     "commit": "git add . && git commit && git push -u origin master"
   },
   "author": "Jonathan Faircloth",
@@ -18,5 +20,10 @@
     "gatsby-plugin-amp",
     "amp",
     "accelerated-mobile-pages"
-  ]
+  ],
+  "devDependencies": {
+    "babel-preset-gatsby-package": "^0.1.2",
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.5"
+  }
 }
