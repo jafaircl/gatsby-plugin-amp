@@ -157,3 +157,13 @@ The standard HTML template that gatsby uses will cause a validation error becaus
 <!-- Replacement -->
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, shrink-to-fit=no" />
 ```
+
+## Automatically Converted Elements
+
+While it is preferable to create AMP-specific templates, there may be situations where an image, iframe or some other element can't be modified. To cover these cases, the plugin will attempt to convert certain tags to their AMP equivalent.
+
+| HTML Tag     | AMP Tag      | Status    | Issue |
+|--------------|--------------|-----------|-------|
+| `img`        | `amp-img`    | Completed |       |
+| `img (.gif)` | `amp-anim`   | Completed |       |
+| `iframe`     | `amp-iframe` | Planned   | [#1](https://github.com/jafaircl/gatsby-plugin-amp/issues/1)      |
