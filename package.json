@@ -1,6 +1,6 @@
 {
   "name": "gatsby-plugin-amp",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "description": "A gatsby plugin for scaffolding AMP pages",
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,11 @@
   },
   "author": "Jonathan Faircloth",
   "license": "MIT",
+  "homepage": "https://github.com/jafaircl/gatsby-plugin-amp#readme",
+  "repository": "https://github.com/jafaircl/gatsby-plugin-amp",
+  "bugs": {
+    "url": "https://github.com/jafaircl/gatsby-plugin-amp/issues"
+  },
   "dependencies": {
     "jsdom": "^13.0.0",
     "minimatch": "^3.0.4",

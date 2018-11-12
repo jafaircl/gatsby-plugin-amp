@@ -24,7 +24,8 @@ export const onPreRenderHTML = (
     canonicalBaseUrl,
     components = [],
     excludedPaths = [],
-    pathIdentifier
+    pathIdentifier,
+    relAmpHtmlPattern = "{{canonicalBaseUrl}}{{pathIdentifier}}{{pathname}}"
   }
 ) => {
   const headComponents = getHeadComponents();
@@ -79,10 +80,11 @@ export const onPreRenderHTML = (
     replaceHeadComponents([
       <link
         rel="amphtml"
-        href={`${canonicalBaseUrl}${pathIdentifier.replace(
-          /\//g,
-          ""
-        )}${pathname}`}
+        href={interpolate(relAmpHtmlPattern, {
+          canonicalBaseUrl,
+          pathIdentifier,
+          pathname
+        }).replace(/([^:])(\/\/+)/g, "$1/")}
       />,
       ...headComponents
     ]);
