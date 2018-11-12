@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { renderToString } from "react-dom/server";
 import { JSDOM } from "jsdom";
+import * as minimatch from "minimatch";
 
 const ampBoilerplate = `body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}`;
 const ampNoscriptBoilerplate = `body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}`;
@@ -74,7 +75,7 @@ export const onPreRenderHTML = (
     replacePostBodyComponents(
       postBodyComponents.filter(x => x.type !== "script")
     );
-  } else if (excludedPaths.indexOf(pathname.replace(pathIdentifier, "")) < 0) {
+  } else if (excludedPaths.findIndex(_path => minimatch(pathname, _path)) < 0) {
     replaceHeadComponents([
       <link
         rel="amphtml"

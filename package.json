@@ -1,6 +1,6 @@
 {
   "name": "gatsby-plugin-amp",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "description": "A gatsby plugin for scaffolding AMP pages",
   "main": "index.js",
   "scripts": {
@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "jsdom": "^13.0.0",
+    "minimatch": "^3.0.4",
     "react": "^16.6.1"
   },
   "keywords": [

@@ -39,7 +39,7 @@ export default ({ data }) => (
 )
 ```
 
-While creating posts in your `gatsby-node.js` file, create an additional page in the `/amp/` directory using the AMP template you just made
+To assist with situations like images in markdown or other externally created HTML, the plugin will attempt to turn `img` tags to `amp-img` or `amp-anim`. While creating posts in your `gatsby-node.js` file, create an additional page in the `/amp/` directory using the AMP template you just made
 
 ```javascript
 _.each(posts, (post, index) => {
@@ -135,7 +135,7 @@ The base URL for your site. This will be used to create a `rel="canonical"` link
 The components you will need for your AMP templates. Read more about the available components [here](https://www.ampproject.org/docs/reference/components).
 
 **excludedPaths**`{Array<String>}`
-By default, this plugin will create `rel="amphtml"` links in all pages. If there are pages you would like to not have those links, include them here. *this may go away if a way can be found to programatically exclude pages based on whether or not they have an AMP equivalent. But for now, this will work*
+By default, this plugin will create `rel="amphtml"` links in all pages. If there are pages you would like to not have those links, include them here. You may use glob patterns in your strings (e.g. `/admin/*`). *this may go away if a way can be found to programatically exclude pages based on whether or not they have an AMP equivalent. But for now, this will work*
 
 **pathIdentifier** `{String}`
 The url segment which identifies AMP pages. If your regular page is at `http://www.example.com/blog/my-awesome-post` and your AMP page is at `http://www.example.com/amp/blog/my-awesome-post`, your pathIdentifier should be `/amp/`
