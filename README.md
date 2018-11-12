@@ -162,8 +162,14 @@ The standard HTML template that gatsby uses will cause a validation error becaus
 
 While it is preferable to create AMP-specific templates, there may be situations where an image, iframe or some other element can't be modified. To cover these cases, the plugin will attempt to convert certain tags to their AMP equivalent.
 
-| HTML Tag     | AMP Tag      | Status    | Issue |
-|--------------|--------------|-----------|-------|
-| `img`        | `amp-img`    | Completed |       |
-| `img (.gif)` | `amp-anim`   | Completed |       |
-| `iframe`     | `amp-iframe` | Planned   | [#1](https://github.com/jafaircl/gatsby-plugin-amp/issues/1)      |
+| HTML Tag       | AMP Tag           | Status                     | Issue |
+|----------------|-------------------|----------------------------|-------|
+| `img`          | `amp-img`         | Completed                  |       |
+| `img (.gif)`   | `amp-anim`        | Completed                  |       |
+| `iframe`       | `amp-iframe`      | Planned, Not Completed     | [#1](https://github.com/jafaircl/gatsby-plugin-amp/issues/1)      |
+| `audio`        | `amp-audio`       | Planned, Not Started       |       |
+| `video`        | `amp-video`       | Planned, Not Started       |       |
+| YouTube        | `amp-youtube`     | Planned, Not Started       |       |
+| Facebook       | `amp-facebook`    | Planned, Not Started       |       |
+| Instagram      | `amp-instagram`   | Planned, Not Started       |       |
+| Twitter        | `amp-twitter`     | Planned, Not Started       |       |
