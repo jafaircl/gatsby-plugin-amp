@@ -57,7 +57,7 @@ _.each(posts, (post, index) => {
   })
 
   createPage({
-    path: `/amp/${post.node.fields.slug}`,
+    path: `${post.node.fields.slug}/amp`,
     component: path.resolve('./src/templates/post.amp.js'),
     context: {
       slug: post.node.fields.slug,
@@ -68,7 +68,7 @@ _.each(posts, (post, index) => {
 })
 ```
 
-When you build your site, you should now have pages at `/my-awesome-post/index.html` and `/amp/my-awesome-post/index.html`
+When you build your site, you should now have pages at `/my-awesome-post/index.html` and `/my-awesome-post/amp/index.html`
 
 Add the plugin to the plugins array in your `gatsby-config.js`
 
@@ -94,7 +94,7 @@ Add the plugin to the plugins array in your `gatsby-config.js`
     components: ['amp-form'],
     excludedPaths: ['/404*', '/'],
     pathIdentifier: '/amp/',
-    relAmpHtmlPattern: '{{canonicalBaseUrl}}{{pathIdentifier}}{{pathname}}'
+    relAmpHtmlPattern: '{{canonicalBaseUrl}}{{pathname}}{{pathIdentifier}}'
     useAmpClientIdApi: true,
   },
 },
@@ -139,10 +139,10 @@ The components you will need for your AMP templates. Read more about the availab
 By default, this plugin will create `rel="amphtml"` links in all pages. If there are pages you would like to not have those links, include them here. You may use glob patterns in your strings (e.g. `/admin/*`). *this may go away if a way can be found to programatically exclude pages based on whether or not they have an AMP equivalent. But for now, this will work*
 
 **pathIdentifier** `{String}`
-The url segment which identifies AMP pages. If your regular page is at `http://www.example.com/blog/my-awesome-post` and your AMP page is at `http://www.example.com/amp/blog/my-awesome-post`, your pathIdentifier should be `/amp/`
+The url segment which identifies AMP pages. If your regular page is at `http://www.example.com/blog/my-awesome-post` and your AMP page is at `http://www.example.com/blog/my-awesome-post/amp/`, your pathIdentifier should be `/amp/`
 
 **relAmpHtmlPattern** `{String}`
-The url pattern for your `rel="amphtml"` links. If your AMP pages follow the pattern `http://www.example.com/amp/my-awesome-post`, the value for this should be `{{canonicalBaseUrl}}{{pathIdentifier}}{{pathname}}`.
+The url pattern for your `rel="amphtml"` links. If your AMP pages follow the pattern `http://www.example.com/my-awesome-post/amp/`, the value for this should be `{{canonicalBaseUrl}}{{pathname}}{{pathIdentifier}}`.
 
 **relCanonicalPattern** `{String}`
 The url pattern for your `rel="canonical"` links. The default value is `{{canonicalBaseUrl}}{{pathname}}`.

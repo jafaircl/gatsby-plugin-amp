@@ -24,8 +24,8 @@ export const onPreRenderHTML = (
     canonicalBaseUrl,
     components = [],
     excludedPaths = [],
-    pathIdentifier,
-    relAmpHtmlPattern = "{{canonicalBaseUrl}}{{pathIdentifier}}{{pathname}}"
+    pathIdentifier = "/amp/",
+    relAmpHtmlPattern = "{{canonicalBaseUrl}}{{pathname}}{{pathIdentifier}}"
   }
 ) => {
   const headComponents = getHeadComponents();
@@ -96,7 +96,7 @@ export const onRenderBody = (
   {
     analytics,
     canonicalBaseUrl,
-    pathIdentifier,
+    pathIdentifier = "/amp/",
     relCanonicalPattern = "{{canonicalBaseUrl}}{{pathname}}",
     useAmpClientIdApi = false
   }
@@ -151,7 +151,7 @@ export const onRenderBody = (
 
 export const replaceRenderer = (
   { bodyComponent, replaceBodyHTMLString, setHeadComponents, pathname },
-  { pathIdentifier }
+  { pathIdentifier = "/amp/" }
 ) => {
   const defaults = {
     image: {
