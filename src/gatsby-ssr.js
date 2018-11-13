@@ -93,7 +93,13 @@ export const onPreRenderHTML = (
 
 export const onRenderBody = (
   { setHeadComponents, setHtmlAttributes, setPreBodyComponents, pathname },
-  { analytics, canonicalBaseUrl, pathIdentifier, useAmpClientIdApi = false }
+  {
+    analytics,
+    canonicalBaseUrl,
+    pathIdentifier,
+    relCanonicalPattern = "{{canonicalBaseUrl}}{{pathname}}",
+    useAmpClientIdApi = false
+  }
 ) => {
   const isAmp = pathname.indexOf(pathIdentifier) > -1;
   if (isAmp) {
@@ -101,7 +107,12 @@ export const onRenderBody = (
     setHeadComponents([
       <link
         rel="canonical"
-        href={`${canonicalBaseUrl}${pathname.replace(pathIdentifier, "")}`}
+        href={interpolate(relCanonicalPattern, {
+          canonicalBaseUrl,
+          pathname
+        })
+          .replace(pathIdentifier, "")
+          .replace(/([^:])(\/\/+)/g, "$1/")}
       />,
       useAmpClientIdApi ? (
         <meta name="amp-google-client-id-api" content="googleanalytics" />
@@ -179,7 +190,7 @@ export const replaceRenderer = (
       image.parentNode.replaceChild(ampImage, image);
     });
     setHeadComponents(
-      [...new Set(headComponents)].map(x => (
+      Array.from(new Set(headComponents)).map(x => (
         <Fragment>
           <script
             async

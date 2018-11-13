@@ -144,6 +144,9 @@ The url segment which identifies AMP pages. If your regular page is at `http://w
 **relAmpHtmlPattern** `{String}`
 The url pattern for your `rel="amphtml"` links. If your AMP pages follow the pattern `http://www.example.com/amp/my-awesome-post`, the value for this should be `{{canonicalBaseUrl}}{{pathIdentifier}}{{pathname}}`.
 
+**relCanonicalPattern** `{String}`
+The url pattern for your `rel="canonical"` links. The default value is `{{canonicalBaseUrl}}{{pathname}}`.
+
 **useAmpClientIdApi** `{Boolean}`
 If you are using a Client ID for Google Analytics, you can use the [Google AMP Client ID](https://support.google.com/analytics/answer/7486764) to determine if events belong to the same user when they visit your site on AMP and non-AMP pages. Set this to `true` if you would like to include the necessary meta tag in your AMP pages. You can read more about this concept [here](https://www.simoahava.com/analytics/accelerated-mobile-pages-via-google-tag-manager/#2-1-client-id)
 
