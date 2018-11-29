@@ -138,6 +138,9 @@ The components you will need for your AMP templates. Read more about the availab
 **excludedPaths**`{Array<String>}`
 By default, this plugin will create `rel="amphtml"` links in all pages. If there are pages you would like to not have those links, include them here. You may use glob patterns in your strings (e.g. `/admin/*`). *this may go away if a way can be found to programatically exclude pages based on whether or not they have an AMP equivalent. But for now, this will work*
 
+**includedPaths**`{Array<String>}`
+By default, this plugin will create `rel="amphtml"` links in all pages. If, you would instead like to whitelist pages, include them here. You may use glob patterns in your strings (e.g. `/blog/*`). *this may go away if a way can be found to programatically exclude pages based on whether or not they have an AMP equivalent. But for now, this will work*
+
 **pathIdentifier** `{String}`
 The url segment which identifies AMP pages. If your regular page is at `http://www.example.com/blog/my-awesome-post` and your AMP page is at `http://www.example.com/blog/my-awesome-post/amp/`, your pathIdentifier should be `/amp/`
 

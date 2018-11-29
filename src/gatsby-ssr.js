@@ -23,6 +23,7 @@ export const onPreRenderHTML = (
     analytics,
     canonicalBaseUrl,
     components = [],
+    includedPaths = [],
     excludedPaths = [],
     pathIdentifier = "/amp/",
     relAmpHtmlPattern = "{{canonicalBaseUrl}}{{pathname}}{{pathIdentifier}}"
@@ -76,7 +77,13 @@ export const onPreRenderHTML = (
     replacePostBodyComponents(
       postBodyComponents.filter(x => x.type !== "script")
     );
-  } else if (excludedPaths.findIndex(_path => minimatch(pathname, _path)) < 0) {
+  } else if (
+    (excludedPaths.length > 0 &&
+      excludedPaths.findIndex(_path => minimatch(pathname, _path)) < 0) ||
+    (includedPaths.length > 0 &&
+      includedPaths.findIndex(_path => minimatch(pathname, _path)) > -1) ||
+    (excludedPaths.length === 0 && includedPaths.length === 0)
+  ) {
     replaceHeadComponents([
       <link
         rel="amphtml"
