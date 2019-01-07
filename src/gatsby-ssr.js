@@ -32,7 +32,7 @@ export const onPreRenderHTML = (
   const headComponents = getHeadComponents();
   const preBodyComponents = getPreBodyComponents();
   const postBodyComponents = getPostBodyComponents();
-  const isAmp = pathname.indexOf(pathIdentifier) > -1;
+  const isAmp = pathname && pathname.indexOf(pathIdentifier) > -1;
   if (isAmp) {
     const styles = headComponents.reduce((str, x) => {
       if (x.type === "style") {
@@ -196,7 +196,7 @@ export const replaceRenderer = (
     const images = [].slice.call(document.getElementsByTagName("img"));
     images.forEach(image => {
       let ampImage;
-      if (image.src.indexOf(".gif") > -1) {
+      if (image.src && image.src.indexOf(".gif") > -1) {
         ampImage = document.createElement("amp-anim");
         headComponents.push("amp-anim");
       } else {
@@ -209,7 +209,7 @@ export const replaceRenderer = (
         return attribute.name;
       });
       Object.keys(defaults.image).forEach(key => {
-        if (includedAttributes.indexOf(key) === -1) {
+        if (includedAttributes && includedAttributes.indexOf(key) === -1) {
           ampImage.setAttribute(key, defaults.image[key]);
         }
       });
