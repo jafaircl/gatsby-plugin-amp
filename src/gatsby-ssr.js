@@ -121,13 +121,6 @@ export const onRenderBody = (
 ) => {
   const isAmp = pathname && pathname.indexOf(pathIdentifier) > -1;
   if (isAmp) {
-    const headComponents = getHeadComponents();
-    const styles = headComponents.reduce((str, x) => {
-      if (x.type === "style") {
-        str += x.props.dangerouslySetInnerHTML.__html;
-      }
-      return str;
-    }, "");
     setHtmlAttributes({ amp: "" });
     setHeadComponents([
       <link
@@ -143,8 +136,7 @@ export const onRenderBody = (
         <meta name="amp-google-client-id-api" content="googleanalytics" />
       ) : (
         <Fragment />
-      ),
-      <style amp-custom="" dangerouslySetInnerHTML={{ __html: styles }} />
+      )
     ]);
     setPreBodyComponents([
       analytics != undefined ? (
