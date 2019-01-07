@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { renderToString } from "react-dom/server";
-import { JSDOM } from "jsdom";
-import * as minimatch from "minimatch";
+import { Minimatch } from "minimatch";
+const JSDOM = eval('require("jsdom")').JSDOM;
 
 const ampBoilerplate = `body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}`;
 const ampNoscriptBoilerplate = `body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}`;
@@ -53,8 +53,9 @@ export const onPreRenderHTML = (
         />
       </noscript>,
       <style amp-custom="" dangerouslySetInnerHTML={{ __html: styles }} />,
-      ...components.map(x => (
+      ...components.map((x, i) => (
         <script
+          key={`custom-element-${i}`}
           async
           custom-element={x}
           src={`https://cdn.ampproject.org/v0/${x}-0.1.js`}
@@ -79,9 +80,13 @@ export const onPreRenderHTML = (
     );
   } else if (
     (excludedPaths.length > 0 &&
-      excludedPaths.findIndex(_path => minimatch(pathname, _path)) < 0) ||
+      pathname &&
+      excludedPaths.findIndex(_path => new Minimatch(pathname).match(_path)) <
+        0) ||
     (includedPaths.length > 0 &&
-      includedPaths.findIndex(_path => minimatch(pathname, _path)) > -1) ||
+      pathname &&
+      includedPaths.findIndex(_path => new Minimatch(pathname).match(_path)) >
+        -1) ||
     (excludedPaths.length === 0 && includedPaths.length === 0)
   ) {
     replaceHeadComponents([
@@ -99,7 +104,13 @@ export const onPreRenderHTML = (
 };
 
 export const onRenderBody = (
-  { setHeadComponents, setHtmlAttributes, setPreBodyComponents, pathname },
+  {
+    getHeadComponents,
+    setHeadComponents,
+    setHtmlAttributes,
+    setPreBodyComponents,
+    pathname
+  },
   {
     analytics,
     canonicalBaseUrl,
@@ -108,8 +119,15 @@ export const onRenderBody = (
     useAmpClientIdApi = false
   }
 ) => {
-  const isAmp = pathname.indexOf(pathIdentifier) > -1;
+  const isAmp = pathname && pathname.indexOf(pathIdentifier) > -1;
   if (isAmp) {
+    const headComponents = getHeadComponents();
+    const styles = headComponents.reduce((str, x) => {
+      if (x.type === "style") {
+        str += x.props.dangerouslySetInnerHTML.__html;
+      }
+      return str;
+    }, "");
     setHtmlAttributes({ amp: "" });
     setHeadComponents([
       <link
@@ -125,7 +143,8 @@ export const onRenderBody = (
         <meta name="amp-google-client-id-api" content="googleanalytics" />
       ) : (
         <Fragment />
-      )
+      ),
+      <style amp-custom="" dangerouslySetInnerHTML={{ __html: styles }} />
     ]);
     setPreBodyComponents([
       analytics != undefined ? (
@@ -168,7 +187,7 @@ export const replaceRenderer = (
     }
   };
   const headComponents = [];
-  const isAmp = pathname.indexOf(pathIdentifier) > -1;
+  const isAmp = pathname && pathname.indexOf(pathIdentifier) > -1;
   if (isAmp) {
     const bodyHTML = renderToString(bodyComponent);
     const dom = new JSDOM(bodyHTML);
@@ -197,8 +216,8 @@ export const replaceRenderer = (
       image.parentNode.replaceChild(ampImage, image);
     });
     setHeadComponents(
-      Array.from(new Set(headComponents)).map(x => (
-        <Fragment>
+      Array.from(new Set(headComponents)).map((x, i) => (
+        <Fragment key={`head-components-${i}`}>
           <script
             async
             custom-element={x}
