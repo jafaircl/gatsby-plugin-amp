@@ -37,6 +37,8 @@ export const onPreRenderHTML = (
     const styles = headComponents.reduce((str, x) => {
       if (x.type === "style") {
         str += x.props.dangerouslySetInnerHTML.__html;
+      } else if (x.key && x.key === "TypographyStyle") {
+        str = `${x.props.typography.toString()}${str}`;
       }
       return str;
     }, "");
@@ -70,7 +72,7 @@ export const onPreRenderHTML = (
       ) : (
         <Fragment />
       ),
-      ...headComponents.filter(x => x.type !== "style" && x.type !== "script")
+      ...headComponents.filter(x => x.type !== "style" && x.type !== "script" && x.key !== "TypographyStyle")
     ]);
     replacePreBodyComponents([
       ...preBodyComponents.filter(x => x.key !== "plugin-google-tagmanager")
