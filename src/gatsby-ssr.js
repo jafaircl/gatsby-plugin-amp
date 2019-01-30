@@ -72,7 +72,12 @@ export const onPreRenderHTML = (
       ) : (
         <Fragment />
       ),
-      ...headComponents.filter(x => x.type !== "style" && x.type !== "script" && x.key !== "TypographyStyle")
+      ...headComponents.filter(
+        x =>
+          x.type !== "style" &&
+          x.type !== "script" &&
+          x.key !== "TypographyStyle"
+      )
     ]);
     replacePreBodyComponents([
       ...preBodyComponents.filter(x => x.key !== "plugin-google-tagmanager")
