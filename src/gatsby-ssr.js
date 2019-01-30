@@ -35,7 +35,7 @@ export const onPreRenderHTML = (
   const isAmp = pathname && pathname.indexOf(pathIdentifier) > -1;
   if (isAmp) {
     const styles = headComponents.reduce((str, x) => {
-      if (x.type === "style") {
+      if (x.type === "style" || x.type === "TypographyStyle") {
         str += x.props.dangerouslySetInnerHTML.__html;
       }
       return str;
