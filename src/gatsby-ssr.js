@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { renderToString } from "react-dom/server";
 import { Minimatch } from "minimatch";
+import flattenDeep from 'lodash.flattendeep';
 const JSDOM = eval('require("jsdom")').JSDOM;
 
 const ampBoilerplate = `body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}`;
@@ -29,14 +30,16 @@ export const onPreRenderHTML = (
     relAmpHtmlPattern = "{{canonicalBaseUrl}}{{pathname}}{{pathIdentifier}}"
   }
 ) => {
-  const headComponents = getHeadComponents();
+  const headComponents = flattenDeep(getHeadComponents());
   const preBodyComponents = getPreBodyComponents();
   const postBodyComponents = getPostBodyComponents();
   const isAmp = pathname && pathname.indexOf(pathIdentifier) > -1;
   if (isAmp) {
     const styles = headComponents.reduce((str, x) => {
       if (x.type === "style") {
-        str += x.props.dangerouslySetInnerHTML.__html;
+        if (x.props.dangerouslySetInnerHTML) {
+          str += x.props.dangerouslySetInnerHTML.__html;
+        }
       } else if (x.key && x.key === "TypographyStyle") {
         str = `${x.props.typography.toString()}${str}`;
       }
@@ -70,8 +73,8 @@ export const onPreRenderHTML = (
           src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"
         />
       ) : (
-        <Fragment />
-      ),
+          <Fragment />
+        ),
       ...headComponents.filter(
         x =>
           x.type !== "style" &&
@@ -89,11 +92,11 @@ export const onPreRenderHTML = (
     (excludedPaths.length > 0 &&
       pathname &&
       excludedPaths.findIndex(_path => new Minimatch(pathname).match(_path)) <
-        0) ||
+      0) ||
     (includedPaths.length > 0 &&
       pathname &&
       includedPaths.findIndex(_path => new Minimatch(pathname).match(_path)) >
-        -1) ||
+      -1) ||
     (excludedPaths.length === 0 && includedPaths.length === 0)
   ) {
     replaceHeadComponents([
@@ -142,8 +145,8 @@ export const onRenderBody = (
       useAmpClientIdApi ? (
         <meta name="amp-google-client-id-api" content="googleanalytics" />
       ) : (
-        <Fragment />
-      )
+          <Fragment />
+        )
     ]);
     setPreBodyComponents([
       analytics != undefined ? (
@@ -157,19 +160,19 @@ export const onRenderBody = (
           {typeof analytics.config === "string" ? (
             <Fragment />
           ) : (
-            <script
-              type="application/json"
-              dangerouslySetInnerHTML={{
-                __html: interpolate(JSON.stringify(analytics.config), {
-                  pathname
-                })
-              }}
-            />
-          )}
+              <script
+                type="application/json"
+                dangerouslySetInnerHTML={{
+                  __html: interpolate(JSON.stringify(analytics.config), {
+                    pathname
+                  })
+                }}
+              />
+            )}
         </amp-analytics>
       ) : (
-        <Fragment />
-      )
+          <Fragment />
+        )
     ]);
   }
 };
