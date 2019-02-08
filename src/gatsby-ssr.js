@@ -114,13 +114,7 @@ export const onPreRenderHTML = (
 };
 
 export const onRenderBody = (
-  {
-    getHeadComponents,
-    setHeadComponents,
-    setHtmlAttributes,
-    setPreBodyComponents,
-    pathname
-  },
+  { setHeadComponents, setHtmlAttributes, setPreBodyComponents, pathname },
   {
     analytics,
     canonicalBaseUrl,
@@ -186,7 +180,17 @@ export const replaceRenderer = (
       width: 640,
       height: 475,
       layout: "responsive"
-    }
+    },
+    twitter: {
+      width: '390',
+      height: '330',
+      layout: 'responsive',
+    },
+    iframe: {
+      width: 640,
+      height: 475,
+      layout: 'responsive',
+    },
   };
   const headComponents = [];
   const isAmp = pathname && pathname.indexOf(pathIdentifier) > -1;
@@ -195,6 +199,7 @@ export const replaceRenderer = (
     const dom = new JSDOM(bodyHTML);
     const document = dom.window.document;
 
+    // convert images to amp-img or amp-anim
     const images = [].slice.call(document.getElementsByTagName("img"));
     images.forEach(image => {
       let ampImage;
@@ -217,6 +222,56 @@ export const replaceRenderer = (
       });
       image.parentNode.replaceChild(ampImage, image);
     });
+    
+    // convert twitter posts to amp-twitter
+    const twitterPosts = [].slice.call(
+      document.getElementsByClassName('twitter-tweet')
+    )
+    twitterPosts.forEach(post => {
+      headComponents.push('amp-twitter')
+      const ampTwitter = document.createElement('amp-twitter')
+      const attributes = Object.keys(post.attributes)
+      const includedAttributes = attributes.map(key => {
+        const attribute = post.attributes[key]
+        ampTwitter.setAttribute(attribute.name, attribute.value)
+        return attribute.name
+      })
+      Object.keys(defaults.twitter).forEach(key => {
+        if (includedAttributes && includedAttributes.indexOf(key) === -1) {
+          ampTwitter.setAttribute(key, defaults.twitter[key])
+        }
+      })
+      // grab the last link in the tweet for the twee id
+      const links = [].slice.call(post.getElementsByTagName('a'))
+      const link = links[links.length - 1]
+      const hrefArr = link.href.split('/')
+      const id = hrefArr[hrefArr.length - 1].split('?')[0]
+      ampTwitter.setAttribute('data-tweetid', id)
+      // clone the original blockquote for a placeholder
+      const _post = post.cloneNode(true)
+      _post.setAttribute('placeholder', '')
+      ampTwitter.appendChild(_post)
+      post.parentNode.replaceChild(ampTwitter, post)
+    })
+
+    // convert iframes to amp-iframe
+    const iframes = [].slice.call(document.getElementsByTagName('iframe'))
+    iframes.forEach(iframe => {
+      headComponents.push('amp-iframe')
+      const ampIframe = document.createElement('amp-iframe')
+      const attributes = Object.keys(iframe.attributes)
+      const includedAttributes = attributes.map(key => {
+        const attribute = iframe.attributes[key]
+        ampIframe.setAttribute(attribute.name, attribute.value)
+        return attribute.name
+      })
+      Object.keys(defaults.iframe).forEach(key => {
+        if (includedAttributes && includedAttributes.indexOf(key) === -1) {
+          ampIframe.setAttribute(key, defaults.iframe[key])
+        }
+      })
+      iframe.parentNode.replaceChild(ampIframe, iframe)
+    })
     setHeadComponents(
       Array.from(new Set(headComponents)).map((x, i) => (
         <Fragment key={`head-components-${i}`}>
