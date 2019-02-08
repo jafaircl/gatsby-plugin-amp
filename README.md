@@ -172,10 +172,10 @@ While it is preferable to create AMP-specific templates, there may be situations
 |----------------|-------------------|----------------------------|-------|
 | `img`          | `amp-img`         | Completed                  |       |
 | `img (.gif)`   | `amp-anim`        | Completed                  |       |
-| `iframe`       | `amp-iframe`      | Planned, Not Completed     | [#1](https://github.com/jafaircl/gatsby-plugin-amp/issues/1)      |
+| `iframe`       | `amp-iframe`      | Completed                  |       |
 | `audio`        | `amp-audio`       | Planned, Not Started       |       |
 | `video`        | `amp-video`       | Planned, Not Started       |       |
 | YouTube        | `amp-youtube`     | Planned, Not Started       |       |
 | Facebook       | `amp-facebook`    | Planned, Not Started       |       |
 | Instagram      | `amp-instagram`   | Planned, Not Started       |       |
-| Twitter        | `amp-twitter`     | Planned, Not Started       |       |
+| Twitter        | `amp-twitter`     | Completed                  |       |
