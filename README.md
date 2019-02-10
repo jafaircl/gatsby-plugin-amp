@@ -175,7 +175,7 @@ While it is preferable to create AMP-specific templates, there may be situations
 | `iframe`       | `amp-iframe`      | Completed                  |       |
 | `audio`        | `amp-audio`       | Planned, Not Started       |       |
 | `video`        | `amp-video`       | Planned, Not Started       |       |
-| YouTube        | `amp-youtube`     | Planned, Not Started       |       |
+| YouTube        | `amp-youtube`     | Completed                  |       |
 | Facebook       | `amp-facebook`    | Planned, Not Started       |       |
 | Instagram      | `amp-instagram`   | Planned, Not Started       |       |
 | Twitter        | `amp-twitter`     | Completed                  |       |
