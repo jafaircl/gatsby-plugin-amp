@@ -254,12 +254,37 @@ export const replaceRenderer = (
       post.parentNode.replaceChild(ampTwitter, post)
     })
 
-    // convert iframes to amp-iframe
+    // convert iframes to amp-iframe or amp-youtube
     const iframes = [].slice.call(document.getElementsByTagName('iframe'))
     iframes.forEach(iframe => {
-      headComponents.push('amp-iframe')
-      const ampIframe = document.createElement('amp-iframe')
-      const attributes = Object.keys(iframe.attributes)
+      let ampIframe
+      let attributes
+      if (iframe.src && iframe.src.indexOf('youtube.com/embed/') > -1) {
+        headComponents.push('amp-youtube')
+        ampIframe = document.createElement('amp-youtube')
+        const src = iframe.src.split('/')
+        const id = src[src.length - 1].split('?')[0]
+        ampIframe.setAttribute('data-videoid', id)
+        const placeholder = document.createElement('amp-img')
+        placeholder.setAttribute(
+          'src',
+          `https://i.ytimg.com/vi/${id}/mqdefault.jpg`
+        )
+        placeholder.setAttribute('placeholder', '')
+        placeholder.setAttribute('layout', 'fill')
+        ampIframe.appendChild(placeholder)
+
+        const forbidden = ['allow', 'allowfullscreen', 'frameborder', 'src']
+        attributes = Object.keys(iframe.attributes).filter(key => {
+          const attribute = iframe.attributes[key]
+          return !forbidden.includes(attribute.name)
+        })
+      } else {
+        headComponents.push('amp-iframe')
+        ampIframe = document.createElement('amp-iframe')
+        attributes = Object.keys(iframe.attributes)
+      }
+
       const includedAttributes = attributes.map(key => {
         const attribute = iframe.attributes[key]
         ampIframe.setAttribute(attribute.name, attribute.value)
