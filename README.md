@@ -94,7 +94,7 @@ Add the plugin to the plugins array in your `gatsby-config.js`
     components: ['amp-form'],
     excludedPaths: ['/404*', '/'],
     pathIdentifier: '/amp/',
-    relAmpHtmlPattern: '{{canonicalBaseUrl}}{{pathname}}{{pathIdentifier}}'
+    relAmpHtmlPattern: '{{canonicalBaseUrl}}{{pathname}}{{pathIdentifier}}',
     useAmpClientIdApi: true,
   },
 },
