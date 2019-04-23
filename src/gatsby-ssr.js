@@ -173,7 +173,7 @@ export const onRenderBody = (
 
 export const replaceRenderer = (
   { bodyComponent, replaceBodyHTMLString, setHeadComponents, pathname },
-  { pathIdentifier = "/amp/" }
+  { pathIdentifier = "/amp/", stories = false }
 ) => {
   const defaults = {
     image: {
@@ -308,6 +308,19 @@ export const replaceRenderer = (
         </Fragment>
       ))
     );
+
+    // if page contain amp-story tag and stories option be enable
+    if(stories && document.getElementsByTagName("amp-story")){
+      if (document.querySelector('body div')){
+        // move up story tag to body
+        document
+          .querySelector('body div')
+          .replaceWith(document.getElementsByTagName('amp-story')[0])
+
+      }
+    }
+
+    
     replaceBodyHTMLString(document.documentElement.outerHTML);
   }
 };
