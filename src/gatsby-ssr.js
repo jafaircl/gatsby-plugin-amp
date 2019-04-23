@@ -58,12 +58,12 @@ export const onPreRenderHTML = (
         />
       </noscript>,
       <style amp-custom="" dangerouslySetInnerHTML={{ __html: styles }} />,
-      ...components.map((x, i) => (
+      ...components.map((component, i) => (
         <script
           key={`custom-element-${i}`}
           async
-          custom-element={x}
-          src={`https://cdn.ampproject.org/v0/${x}-0.1.js`}
+          custom-element={`${typeof component === 'string' ? component : component.name}`}
+          src={`https://cdn.ampproject.org/v0/${typeof component === 'string' ? component : component.name}-${typeof component === 'string' ? '0.1' : component.version}.js`}
         />
       )),
       analytics !== undefined ? (
@@ -205,7 +205,7 @@ export const replaceRenderer = (
       let ampImage;
       if (image.src && image.src.indexOf(".gif") > -1) {
         ampImage = document.createElement("amp-anim");
-        headComponents.push("amp-anim");
+        headComponents.push({ name: 'amp-anim', version: '0.1' })
       } else {
         ampImage = document.createElement("amp-img");
       }
@@ -228,7 +228,7 @@ export const replaceRenderer = (
       document.getElementsByClassName('twitter-tweet')
     )
     twitterPosts.forEach(post => {
-      headComponents.push('amp-twitter')
+      headComponents.push({ name: 'amp-twitter', version: '0.1' })
       const ampTwitter = document.createElement('amp-twitter')
       const attributes = Object.keys(post.attributes)
       const includedAttributes = attributes.map(key => {
@@ -260,7 +260,7 @@ export const replaceRenderer = (
       let ampIframe
       let attributes
       if (iframe.src && iframe.src.indexOf('youtube.com/embed/') > -1) {
-        headComponents.push('amp-youtube')
+        headComponents.push({ name: 'amp-youtube', version: '0.1' })
         ampIframe = document.createElement('amp-youtube')
         const src = iframe.src.split('/')
         const id = src[src.length - 1].split('?')[0]
@@ -280,7 +280,7 @@ export const replaceRenderer = (
           return !forbidden.includes(attribute.name)
         })
       } else {
-        headComponents.push('amp-iframe')
+        headComponents.push({ name: 'amp-iframe', version: '0.1' })
         ampIframe = document.createElement('amp-iframe')
         attributes = Object.keys(iframe.attributes)
       }
@@ -298,12 +298,12 @@ export const replaceRenderer = (
       iframe.parentNode.replaceChild(ampIframe, iframe)
     })
     setHeadComponents(
-      Array.from(new Set(headComponents)).map((x, i) => (
+      Array.from(new Set(headComponents)).map((component, i) => (
         <Fragment key={`head-components-${i}`}>
           <script
             async
-            custom-element={x}
-            src={`https://cdn.ampproject.org/v0/${x}-0.1.js`}
+            custom-element={component.name}
+            src={`https://cdn.ampproject.org/v0/${component.name}-${component.version}.js`}
           />
         </Fragment>
       ))

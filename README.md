@@ -132,7 +132,7 @@ vars: {
 **canonicalBaseUrl** `{String}`
 The base URL for your site. This will be used to create a `rel="canonical"` link in your amp template and `rel="amphtml"` link in your base page.
 
-**components** `{Array<String>}`
+**components** `{Array<String | Object{name<String>, version<String>}>}`
 The components you will need for your AMP templates. Read more about the available components [here](https://www.ampproject.org/docs/reference/components).
 
 **excludedPaths**`{Array<String>}`
