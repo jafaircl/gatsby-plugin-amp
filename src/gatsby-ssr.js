@@ -3,6 +3,7 @@ import { renderToString } from "react-dom/server";
 import { Minimatch } from "minimatch";
 import flattenDeep from 'lodash.flattendeep';
 const JSDOM = eval('require("jsdom")').JSDOM;
+const minimatch = require('minimatch')
 
 const ampBoilerplate = `body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}`;
 const ampNoscriptBoilerplate = `body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}`;
@@ -95,7 +96,7 @@ export const onPreRenderHTML = (
       0) ||
     (includedPaths.length > 0 &&
       pathname &&
-      includedPaths.findIndex(_path => new Minimatch(pathname).match(_path)) >
+      includedPaths.findIndex(_path => minimatch(pathname, _path)) >
       -1) ||
     (excludedPaths.length === 0 && includedPaths.length === 0)
   ) {
@@ -308,6 +309,6 @@ export const replaceRenderer = (
         </Fragment>
       ))
     );
-    replaceBodyHTMLString(document.documentElement.outerHTML);
+    replaceBodyHTMLString(document.body.children[0].outerHTML);
   }
 };
