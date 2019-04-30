@@ -1,10 +1,10 @@
-# gatsby-plugin-amp
+# @leonardodino/gatsby-plugin-amp
 
 Formats AMP-specific pages by removing javascript, combining styles and adding boilerplate. Read more about AMP (Accelerated Mobile Pages) [here](https://www.ampproject.org/).
 
 ## Install
 
-`npm install --save gatsby-plugin-amp`
+`npm install --save @leonardodino/gatsby-plugin-amp`
 
 ## How to use
 
@@ -32,7 +32,14 @@ import Layout from '../../components/layout'
 
 export default ({ data }) => (
   <Layout>
-    <amp-img src-set={data.image.srcSet} src={data.image.src} width={data.image.width} height={data.image.height} alt={data.image.altText} layout="responsive" />
+    <amp-img
+      src-set={data.image.srcSet}
+      src={data.image.src}
+      width={data.image.width}
+      height={data.image.height}
+      alt={data.image.altText}
+      layout="responsive"
+    />
     <h1>AMP PAGE</h1>
     <p>amp page content</p>
   </Layout>
@@ -43,8 +50,8 @@ To assist with situations like images in markdown or other externally created HT
 
 ```javascript
 _.each(posts, (post, index) => {
-  const previous = index === posts.length - 1 ? null : posts[index + 1].node;
-  const next = index === 0 ? null : posts[index - 1].node;
+  const previous = index === posts.length - 1 ? null : posts[index + 1].node
+  const next = index === 0 ? null : posts[index - 1].node
 
   createPage({
     path: post.node.fields.slug,
@@ -74,7 +81,7 @@ Add the plugin to the plugins array in your `gatsby-config.js`
 
 ```javascript
 {
-  resolve: `gatsby-plugin-amp`,
+  resolve: `@leonardodino/gatsby-plugin-amp`,
   options: {
     analytics: {
       type: 'gtag',
@@ -136,10 +143,10 @@ The base URL for your site. This will be used to create a `rel="canonical"` link
 The components you will need for your AMP templates. Read more about the available components [here](https://www.ampproject.org/docs/reference/components).
 
 **excludedPaths**`{Array<String>}`
-By default, this plugin will create `rel="amphtml"` links in all pages. If there are pages you would like to not have those links, include them here. You may use glob patterns in your strings (e.g. `/admin/*`). *this may go away if a way can be found to programatically exclude pages based on whether or not they have an AMP equivalent. But for now, this will work*
+By default, this plugin will create `rel="amphtml"` links in all pages. If there are pages you would like to not have those links, include them here. You may use glob patterns in your strings (e.g. `/admin/*`). _this may go away if a way can be found to programatically exclude pages based on whether or not they have an AMP equivalent. But for now, this will work_
 
 **includedPaths**`{Array<String>}`
-By default, this plugin will create `rel="amphtml"` links in all pages. If, you would instead like to whitelist pages, include them here. You may use glob patterns in your strings (e.g. `/blog/*`). *this may go away if a way can be found to programatically exclude pages based on whether or not they have an AMP equivalent. But for now, this will work*
+By default, this plugin will create `rel="amphtml"` links in all pages. If, you would instead like to whitelist pages, include them here. You may use glob patterns in your strings (e.g. `/blog/*`). _this may go away if a way can be found to programatically exclude pages based on whether or not they have an AMP equivalent. But for now, this will work_
 
 **pathIdentifier** `{String}`
 The url segment which identifies AMP pages. If your regular page is at `http://www.example.com/blog/my-awesome-post` and your AMP page is at `http://www.example.com/blog/my-awesome-post/amp/`, your pathIdentifier should be `/amp/`
@@ -168,14 +175,14 @@ The standard HTML template that gatsby uses will cause a validation error becaus
 
 While it is preferable to create AMP-specific templates, there may be situations where an image, iframe or some other element can't be modified. To cover these cases, the plugin will attempt to convert certain tags to their AMP equivalent.
 
-| HTML Tag       | AMP Tag           | Status                     | Issue |
-|----------------|-------------------|----------------------------|-------|
-| `img`          | `amp-img`         | Completed                  |       |
-| `img (.gif)`   | `amp-anim`        | Completed                  |       |
-| `iframe`       | `amp-iframe`      | Completed                  |       |
-| `audio`        | `amp-audio`       | Planned, Not Started       |       |
-| `video`        | `amp-video`       | Planned, Not Started       |       |
-| YouTube        | `amp-youtube`     | Completed                  |       |
-| Facebook       | `amp-facebook`    | Planned, Not Started       |       |
-| Instagram      | `amp-instagram`   | Planned, Not Started       |       |
-| Twitter        | `amp-twitter`     | Completed                  |       |
+| HTML Tag     | AMP Tag         | Status               | Issue |
+| ------------ | --------------- | -------------------- | ----- |
+| `img`        | `amp-img`       | Completed            |       |
+| `img (.gif)` | `amp-anim`      | Completed            |       |
+| `iframe`     | `amp-iframe`    | Completed            |       |
+| `audio`      | `amp-audio`     | Planned, Not Started |       |
+| `video`      | `amp-video`     | Planned, Not Started |       |
+| YouTube      | `amp-youtube`   | Completed            |       |
+| Facebook     | `amp-facebook`  | Planned, Not Started |       |
+| Instagram    | `amp-instagram` | Planned, Not Started |       |
+| Twitter      | `amp-twitter`   | Completed            |       |

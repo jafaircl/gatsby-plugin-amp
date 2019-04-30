@@ -1,7 +1,8 @@
 import rpc from 'sync-rpc'
 import { resolve } from 'path'
 
-const sizeOf = rpc(resolve('node_modules', 'gatsby-plugin-amp', 'image-size.worker.js'))
+// [TODO]: fix module resolution
+const sizeOf = rpc(resolve('node_modules', '@leonardodino/gatsby-plugin-amp', 'image-size.worker.js'))
 
 const setImgDimensions = imgNode => {
   try {
