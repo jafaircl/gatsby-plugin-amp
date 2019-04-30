@@ -1,8 +1,8 @@
 import rpc from 'sync-rpc'
 import { resolve } from 'path'
 
-// [TODO]: fix module resolution
-const sizeOf = rpc(resolve('node_modules', '@leonardodino/gatsby-plugin-amp', 'image-size.worker.js'))
+const dirname = resolve(__filename, '..') // hack: __dirname is not working
+const sizeOf = rpc(resolve(dirname, 'image-size.worker.js'))
 
 const setImgDimensions = imgNode => {
   try {
