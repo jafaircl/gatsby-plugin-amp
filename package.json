@@ -1,6 +1,6 @@
 {
   "name": "gatsby-plugin-amp",
-  "version": "0.2.1",
+  "version": "1.0.0-alpha.0",
   "description": "A gatsby plugin for scaffolding AMP pages",
   "main": "index.js",
   "scripts": {
@@ -9,17 +9,17 @@
     "watch": "babel -w src --out-dir . --ignore **/__tests__",
     "commit": "git add . && git commit && git push -u origin master"
   },
-  "author": "Jonathan Faircloth",
+  "author": "Leonardo Dino",
   "license": "MIT",
-  "homepage": "https://github.com/jafaircl/gatsby-plugin-amp#readme",
-  "repository": "https://github.com/jafaircl/gatsby-plugin-amp",
+  "homepage": "https://github.com/leonardodino/gatsby-plugin-amp#readme",
+  "repository": "https://github.com/leonardodino/gatsby-plugin-amp",
   "bugs": {
-    "url": "https://github.com/jafaircl/gatsby-plugin-amp/issues"
+    "url": "https://github.com/leonardodino/gatsby-plugin-amp/issues"
   },
   "dependencies": {
+    "clean-css": "^4.2.1",
     "jsdom": "^13.0.0",
     "lodash.flattendeep": "^4.4.0",
-    "minimatch": "^3.0.4",
     "react": "^16.6.1"
   },
   "keywords": [
