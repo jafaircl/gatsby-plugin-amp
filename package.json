@@ -30,8 +30,12 @@
     "accelerated-mobile-pages"
   ],
   "devDependencies": {
-    "babel-preset-gatsby-package": "^0.1.2",
     "@babel/cli": "^7.1.5",
-    "@babel/core": "^7.1.5"
+    "@babel/core": "^7.1.5",
+    "@babel/preset-env": "~7.3.0",
+    "babel-preset-gatsby-package": "^0.1.4"
+  },
+  "resolutions": {
+    "babel-preset-gatsby-package/@babel/preset-env": "~7.3.0"
   }
 }
