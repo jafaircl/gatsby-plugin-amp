@@ -190,6 +190,7 @@ export const replaceRenderer = (
     } else {
       newHeadComponents['amp-iframe'] = { name: 'amp-iframe', version: '0.1' }
       ampIframe = document.createElement('amp-iframe')
+      if (!iframe.sandbox) iframe.setAttribute('sandbox', 'allow-scripts allow-popups allow-forms allow-same-origin')
       attributes = Object.keys(iframe.attributes)
     }
 
