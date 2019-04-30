@@ -103,6 +103,7 @@ export const onPreRenderHTML = (
     replaceHeadComponents([
       <link
         rel="amphtml"
+        key="gatsby-plugin-amp-amphtml-link"
         href={interpolate(relAmpHtmlPattern, {
           canonicalBaseUrl,
           pathIdentifier,
