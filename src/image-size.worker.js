@@ -1,31 +1,20 @@
-const got = require('got')
-const { resolve } = require('path')
-const sizeOf = require('image-size')
+import { readFile } from 'fs'
+import { resolve } from 'path'
+import { promisify } from 'util'
+import sizeOf from 'image-size'
+import got from 'got'
 
-const readFile = require('util').promisify(require('fs').readFile)
-
-const read = async src => {
-  const path = resolve(process.cwd(), './static', src.replace(/^\//, ''))
-  return await readFile(path, { encoding: null })
+const isNumber = value => typeof value === 'number'
+const getPath = file => resolve(process.cwd(), './static', file.replace(/^\//, ''))
+const read = async file => await promisify(readFile)(getPath(file), { encoding: null })
+const fetch = async url => (await got(url, { encoding: null })).body
+const getBuffer = async src => await (/^https?:\/\//.test(src) ? fetch : read)(src)
+const worker = async src => {
+  try {
+    const { width, height } = await sizeOf(await getBuffer(src))
+    if (isNumber(width) && isNumber(height)) return { width, height }
+  } catch {}
+  return null
 }
 
-const request = async url => {
-  const { body } = await got(url, { encoding: null, responseType: 'buffer' })
-  return body
-}
-
-const getBuffer = src => (/^https?:\/\//.test(src) ? request : read)(src)
-
-module.exports = () => {
-  return async src => {
-    try {
-      const buffer = await getBuffer(src)
-      const dimensions = await sizeOf(buffer)
-      if (dimensions && dimensions.width && dimensions.height) {
-        return { width: dimensions.width, height: dimensions.height }
-      }
-    } catch (e) {}
-
-    return null
-  }
-}
+export default () => worker

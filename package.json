@@ -17,6 +17,7 @@
     "url": "https://github.com/leonardodino/gatsby-plugin-amp/issues"
   },
   "dependencies": {
+    "@babel/runtime": "^7.4.4",
     "clean-css": "^4.2.1",
     "got": "^9.6.0",
     "image-size": "^0.7.4",
