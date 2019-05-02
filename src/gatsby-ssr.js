@@ -11,6 +11,7 @@ import setImgDimensions from './set-img-dimensions'
 const { JSDOM } = eval('require("jsdom")')
 
 const interpolator = map => str => str.replace(/{{\s*[\w\.]+\s*}}/g, match => map[match.replace(/[{}]/g, '')])
+const forbiddenRel = ['preconnect', 'dns-prefetch', 'preload']
 
 export const onPreRenderHTML = (
   {
@@ -39,10 +40,11 @@ export const onPreRenderHTML = (
     )),
     analytics ? <CustomElement component="amp-analytics" key="gatsby-plugin-amp-analytics" /> : undefined,
     ...headComponents.filter(({ type, key = '', props = {} }) => {
+      if (type === 'meta' && props.name !== 'viewport') return false
       if (type === 'style') return false
       if (type === 'script' && props.type !== 'application/ld+json') return false
       if (key === 'TypographyStyle') return false
-      if (type === 'link' && props.rel === 'preload') return false
+      if (type === 'link' && props.rel && props.rel.split(' ').some(rel => forbiddenRel.includes(rel))) return false
       return true
     }),
   ])
