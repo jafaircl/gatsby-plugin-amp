@@ -213,5 +213,8 @@ export const replaceRenderer = (
     )),
   )
 
-  replaceBodyHTMLString(document.body.children[0].outerHTML)
+  // [HACK]: expose a cleaner way of replacing this props
+  const transformed = document.body.children[0].outerHTML.replace(/data-(option|on|selected)=/g, '$1=')
+
+  replaceBodyHTMLString(transformed)
 }
