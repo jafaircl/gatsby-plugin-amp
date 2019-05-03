@@ -196,6 +196,9 @@ export const replaceRenderer = (
       attributes = Object.keys(iframe.attributes)
     }
 
+    const scripts = [].slice.call(document.querySelectorAll('script:not([type="application/ld+json"])'))
+    scripts.forEach(node => node.parentNode.removeChild(node))
+
     const includedAttributes = attributes.map(key => {
       const attribute = iframe.attributes[key]
       ampIframe.setAttribute(attribute.name, attribute.value)
