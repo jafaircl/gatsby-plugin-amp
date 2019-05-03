@@ -113,6 +113,10 @@ export const replaceRenderer = (
   const dom = new JSDOM(bodyHTML)
   const document = dom.window.document
 
+  // remove custom script tags, except JSON-LD metadata
+  const scripts = [].slice.call(document.body.querySelectorAll('script:not([type="application/ld+json"])'))
+  scripts.forEach(node => node.parentNode.removeChild(node))
+
   // convert images to amp-img or amp-anim
   const images = [].slice.call(document.getElementsByTagName('img'))
   images.forEach(image => {
@@ -195,9 +199,6 @@ export const replaceRenderer = (
       if (!iframe.sandbox) iframe.setAttribute('sandbox', 'allow-scripts allow-popups allow-forms allow-same-origin')
       attributes = Object.keys(iframe.attributes)
     }
-
-    const scripts = [].slice.call(document.querySelectorAll('script:not([type="application/ld+json"])'))
-    scripts.forEach(node => node.parentNode.removeChild(node))
 
     const includedAttributes = attributes.map(key => {
       const attribute = iframe.attributes[key]
