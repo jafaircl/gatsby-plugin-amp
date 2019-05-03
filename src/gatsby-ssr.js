@@ -40,9 +40,9 @@ export const onPreRenderHTML = (
     )),
     analytics ? <CustomElement component="amp-analytics" key="gatsby-plugin-amp-analytics" /> : undefined,
     ...headComponents.filter(({ type, key = '', props = {} }) => {
-      if (type === 'meta' && props.name !== 'viewport') return false
+      if (type === 'meta') return props.name !== 'viewport'
       if (type === 'style') return false
-      if (type === 'script' && props.type !== 'application/ld+json') return false
+      if (type === 'script') return props.type === 'application/ld+json'
       if (key === 'TypographyStyle') return false
       if (type === 'link' && props.rel && props.rel.split(' ').some(rel => forbiddenRel.includes(rel))) return false
       return true
