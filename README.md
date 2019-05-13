@@ -1,6 +1,6 @@
 # gatsby-plugin-amp
 
-Formats AMP-specific pages by removing javascript, combining styles and adding boilerplate. Read more about AMP (Accelerated Mobile Pages) [here](https://www.ampproject.org/).
+Formats AMP-specific pages by removing javascript, combining styles and adding boilerplate. Read more about AMP (Accelerated Mobile Pages) [here](https://amp.dev/).
 
 ## Install
 
@@ -155,12 +155,18 @@ If you are using a Client ID for Google Analytics, you can use the [Google AMP C
 
 ## Caveats
 
-The standard HTML template that gatsby uses will cause a validation error because it is missing `minimum-scale=1` in the meta viewport tag. You can supply your own template by creating a `src/html.js` file. Then you can change the meta viewport tag. The default template that gatsby uses can be found [here](https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby/cache-dir/default-html.js).
+The standard HTML template that Gatsby uses will cause a validation error. This is because it is missing `minimum-scale=1` in the meta viewport tag. You can create a `html.js` template file under your `src/` directory in order to override the default Gatsby one available [here](https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby/cache-dir/default-html.js). Alternatively, you can simply clone it by runnig the shell command below at the root of your project. Read more [here](https://www.gatsbyjs.org/docs/custom-html/) on customizing your `html.js`.
+
+```shell
+cp .cache/default-html.js src/html.js
+```
+
+Don't forget to update the meta viewport tag value from its initial to the required AMP value.
 
 ```html
-<!-- Original -->
+<!-- Initial viewport meta tag -->
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<!-- Replacement -->
+<!-- Replacement viewport meta tag (for AMP validity) -->
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, shrink-to-fit=no" />
 ```
 
