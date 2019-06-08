@@ -204,6 +204,10 @@ export const replaceRenderer = (
     const dom = new JSDOM(bodyHTML);
     const document = dom.window.document;
 
+    // remove script tags 
+    const scripts = [].slice.call(document.querySelectorAll('body > script'))
+    scripts.forEach((script) => script.remove())
+
     // convert images to amp-img or amp-anim
     const images = [].slice.call(document.getElementsByTagName("img"));
     images.forEach(image => {
