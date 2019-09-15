@@ -8,7 +8,7 @@ Formats AMP-specific pages by removing javascript, combining styles and adding b
 
 ## How to use
 
-Create AMP-specific templates. Assume you have the following blog post template in `post.js`
+Create AMP-specific templates. Assume you have the following blog post template in `post.js`.
 
 ```javascript
 import React from 'react'
@@ -39,7 +39,7 @@ export default ({ data }) => (
 )
 ```
 
-To assist with situations like images in markdown or other externally created HTML, the plugin will attempt to turn `img` tags to `amp-img` or `amp-anim`. While creating posts in your `gatsby-node.js` file, create an additional page in the `/amp/` directory using the AMP template you just made
+To assist with situations like images in markdown or other externally created HTML, the plugin will attempt to turn `img` tags to `amp-img` or `amp-anim`. While creating posts in your `gatsby-node.js` file, create an additional page in the `/amp/` directory using the AMP template you just made.
 
 ```javascript
 _.each(posts, (post, index) => {
@@ -68,9 +68,9 @@ _.each(posts, (post, index) => {
 })
 ```
 
-When you build your site, you should now have pages at `/my-awesome-post/index.html` and `/my-awesome-post/amp/index.html`
+When you build your site, you should now have pages at `/my-awesome-post/index.html` and `/my-awesome-post/amp/index.html`.
 
-Add the plugin to the plugins array in your `gatsby-config.js`
+Add the plugin to the plugins array in your `gatsby-config.js`.
 
 ```javascript
 {
@@ -100,7 +100,7 @@ Add the plugin to the plugins array in your `gatsby-config.js`
 },
 ```
 
-When your site builds, your page in the `/amp` directory should now be a valid AMP page
+When your site builds, your page in the `/amp` directory should now be a valid AMP page.
 
 ## Options
 
@@ -136,13 +136,13 @@ The base URL for your site. This will be used to create a `rel="canonical"` link
 The components you will need for your AMP templates. Read more about the available components [here](https://www.ampproject.org/docs/reference/components).
 
 **excludedPaths**`{Array<String>}`
-By default, this plugin will create `rel="amphtml"` links in all pages. If there are pages you would like to not have those links, include them here. You may use glob patterns in your strings (e.g. `/admin/*`). *this may go away if a way can be found to programatically exclude pages based on whether or not they have an AMP equivalent. But for now, this will work*
+By default, this plugin will create `rel="amphtml"` links in all pages. If there are pages you would like to not have those links, include them here. You may use glob patterns in your strings (e.g. `/admin/*`). *this may go away if a way can be found to programatically exclude pages based on whether or not they have an AMP equivalent. But for now, this will work*.
 
 **includedPaths**`{Array<String>}`
-By default, this plugin will create `rel="amphtml"` links in all pages. If, you would instead like to whitelist pages, include them here. You may use glob patterns in your strings (e.g. `/blog/*`). *this may go away if a way can be found to programatically exclude pages based on whether or not they have an AMP equivalent. But for now, this will work*
+By default, this plugin will create `rel="amphtml"` links in all pages. If, you would instead like to whitelist pages, include them here. You may use glob patterns in your strings (e.g. `/blog/*`). *this may go away if a way can be found to programatically exclude pages based on whether or not they have an AMP equivalent. But for now, this will work*.
 
 **pathIdentifier** `{String}`
-The url segment which identifies AMP pages. If your regular page is at `http://www.example.com/blog/my-awesome-post` and your AMP page is at `http://www.example.com/blog/my-awesome-post/amp/`, your pathIdentifier should be `/amp/`
+The url segment which identifies AMP pages. If your regular page is at `http://www.example.com/blog/my-awesome-post` and your AMP page is at `http://www.example.com/blog/my-awesome-post/amp/`, your pathIdentifier should be `/amp/`.
 
 **relAmpHtmlPattern** `{String}`
 The url pattern for your `rel="amphtml"` links. If your AMP pages follow the pattern `http://www.example.com/my-awesome-post/amp/`, the value for this should be `{{canonicalBaseUrl}}{{pathname}}{{pathIdentifier}}`.
@@ -151,7 +151,7 @@ The url pattern for your `rel="amphtml"` links. If your AMP pages follow the pat
 The url pattern for your `rel="canonical"` links. The default value is `{{canonicalBaseUrl}}{{pathname}}`.
 
 **useAmpClientIdApi** `{Boolean}`
-If you are using a Client ID for Google Analytics, you can use the [Google AMP Client ID](https://support.google.com/analytics/answer/7486764) to determine if events belong to the same user when they visit your site on AMP and non-AMP pages. Set this to `true` if you would like to include the necessary meta tag in your AMP pages. You can read more about this concept [here](https://www.simoahava.com/analytics/accelerated-mobile-pages-via-google-tag-manager/#2-1-client-id)
+If you are using a Client ID for Google Analytics, you can use the [Google AMP Client ID](https://support.google.com/analytics/answer/7486764) to determine if events belong to the same user when they visit your site on AMP and non-AMP pages. Set this to `true` if you would like to include the necessary meta tag in your AMP pages. You can read more about this concept [here](https://www.simoahava.com/analytics/accelerated-mobile-pages-via-google-tag-manager/#2-1-client-id).
 
 ## Caveats
 
