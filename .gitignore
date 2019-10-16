@@ -1,4 +1,4 @@
 /*.js
 !index.js
-/gatsby-ssr.js
 node_modules
+.DS_Store
