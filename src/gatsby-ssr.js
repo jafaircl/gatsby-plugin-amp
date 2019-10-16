@@ -228,6 +228,14 @@ export const replaceRenderer = (
       image.parentNode.replaceChild(ampImage, image);
     });
 
+    // remove 20px by 20px blur up background image CSS as it's > 1000 bytes - not AMP compatible
+    const gatsbyRespBackgroundImages = [].slice.call(
+      document.getElementsByClassName("gatsby-resp-image-background-image")
+    );
+    gatsbyRespBackgroundImages.forEach(gatsbyRespBackgroundImage => {
+      gatsbyRespBackgroundImage.style.backgroundImage = "";
+    });
+
     // convert twitter posts to amp-twitter
     const twitterPosts = [].slice.call(
       document.getElementsByClassName("twitter-tweet")
