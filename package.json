@@ -1,6 +1,6 @@
 {
   "name": "gatsby-remark-amp",
-  "version": "1.0",
+  "version": "1.0.1",
   "description": "A gatsby plugin for AMP pages",
   "main": "index.js",
   "scripts": {
@@ -17,6 +17,7 @@
     "url": "https://github.com/mukul-rathi/gatsby-plugin-amp/issues"
   },
   "dependencies": {
+    "core-js": "2",
     "jsdom": "^13.0.0",
     "lodash.flattendeep": "^4.4.0",
     "minimatch": "^3.0.4",
@@ -31,8 +32,8 @@
     "accelerated-mobile-pages"
   ],
   "devDependencies": {
-    "babel-preset-gatsby-package": "^0.1.2",
     "@babel/cli": "^7.1.5",
-    "@babel/core": "^7.1.5"
+    "@babel/core": "^7.1.5",
+    "babel-preset-gatsby-package": "^0.1.2"
   }
 }
