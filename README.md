@@ -1,4 +1,4 @@
-# gatsby-remark-amp
+# gatsby-plugin-google-amp
 
 Formats AMP-specific pages by removing javascript, combining styles and adding boilerplate. Read more about AMP (Accelerated Mobile Pages) [here](https://amp.dev/).
 
@@ -8,7 +8,7 @@ Use this over gatsby-plugin-amp as that plugin has not been maintained.
 
 ## Install
 
-`npm install --save gatsby-remark-amp`
+`npm install --save gatsby-plugin-google-amp`
 
 ## How to use
 
