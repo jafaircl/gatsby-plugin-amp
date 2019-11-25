@@ -46,6 +46,7 @@ export const onPreRenderHTML = (
       }
       return str;
     }, "");
+
     replaceHeadComponents([
       <script async src="https://cdn.ampproject.org/v0.js" />,
       <style
@@ -84,7 +85,12 @@ export const onPreRenderHTML = (
         x =>
           x.type !== "style" &&
           (x.type !== "script" || x.props.type === "application/ld+json") &&
-          x.key !== "TypographyStyle"
+          x.key !== "TypographyStyle" &&
+          !(
+            x.type === "link" &&
+            x.props.rel === "preload" &&
+            (x.props.as === "script" || x.props.as === "fetch")
+          )
       )
     ]);
     replacePreBodyComponents([
@@ -308,9 +314,7 @@ export const replaceRenderer = (
           <script
             async
             custom-element={component.name}
-            src={`https://cdn.ampproject.org/v0/${component.name}-${
-              component.version
-            }.js`}
+            src={`https://cdn.ampproject.org/v0/${component.name}-${component.version}.js`}
           />
         </Fragment>
       ))
