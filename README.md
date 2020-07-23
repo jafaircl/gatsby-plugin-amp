@@ -2,10 +2,12 @@
 
 Formats AMP-specific pages by removing javascript, combining styles and adding boilerplate. Read more about AMP (Accelerated Mobile Pages) [here](https://amp.dev/).
 
-**NB: This plugin was forked from gatsby-plugin-amp since gatsby-plugin-amp has not been maintained and there were issues with gatsby-remark-images AMP support. gatsby-plugin-google-amp can be used as a direct substitute to gatsby-plugin-amp**
+NB: This plugin was forked from gatsby-plugin-amp since gatsby-plugin-amp has not been maintained and there were issues with gatsby-remark-images AMP support. gatsby-plugin-google-amp can be used as a direct substitute to gatsby-plugin-amp
 
 
 Please feel free to contribute to the plugin if you notice any missing features/bugs when using it in your sites!
+
+**Update: I am no longer actively maintaining this plugin, however will still review PRs submitted.**
 
 ## Install
 
