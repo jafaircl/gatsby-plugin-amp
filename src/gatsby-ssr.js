@@ -59,18 +59,22 @@ export const onPreRenderHTML = (
         />
       </noscript>,
       <style amp-custom="" dangerouslySetInnerHTML={{ __html: styles }} />,
-      ...components.map((component, i) => (
-        <script
-          key={`custom-element-${i}`}
-          async
-          custom-element={`${
-            typeof component === "string" ? component : component.name
-          }`}
-          src={`https://cdn.ampproject.org/v0/${
-            typeof component === "string" ? component : component.name
-          }-${typeof component === "string" ? "0.1" : component.version}.js`}
-        />
-      )),
+      ...components.map((component, i) => {
+        let attrName = !component.attrName ? 'custom-element' : component.attrName;
+        let customAttr = {
+            [attrName]: typeof component === 'string' ? component : component.name,
+        };
+        return (
+          <script
+            key={`custom-element-${i}`}
+            async
+            {...customAttr}
+            src={`https://cdn.ampproject.org/v0/${
+              typeof component === "string" ? component : component.name
+            }-${typeof component === "string" ? "0.1" : component.version}.js`}
+          />
+        )
+      }),
       analytics !== undefined ? (
         <script
           async
