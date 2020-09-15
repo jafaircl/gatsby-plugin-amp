@@ -96,8 +96,7 @@ export const onPreRenderHTML = (
   } else if (
     (excludedPaths.length > 0 &&
       pathname &&
-      excludedPaths.findIndex(_path => new Minimatch(pathname).match(_path)) <
-        0) ||
+      excludedPaths.findIndex(_path => minimatch(pathname, _path)) < 0) ||
     (includedPaths.length > 0 &&
       pathname &&
       includedPaths.findIndex(_path => minimatch(pathname, _path)) > -1) ||
