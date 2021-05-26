@@ -84,7 +84,8 @@ export const onPreRenderHTML = (
         x =>
           x.type !== "style" &&
           (x.type !== "script" || x.props.type === "application/ld+json") &&
-          x.key !== "TypographyStyle"
+          x.key !== "TypographyStyle" &&
+          x.key !== "gatsby-image-style-noscript"
       )
     ]);
     replacePreBodyComponents([
