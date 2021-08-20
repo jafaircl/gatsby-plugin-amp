@@ -126,7 +126,7 @@ Add the plugin to the plugins array in your `gatsby-config.js`
 
 ```javascript
 {
-  resolve: `gatsby-remark-amp`,
+  resolve: `gatsby-plugin-google-amp`,
   options: {
     analytics: {
       type: 'gtag',
