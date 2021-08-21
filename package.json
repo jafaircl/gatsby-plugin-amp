@@ -1,6 +1,6 @@
 {
   "name": "gatsby-plugin-google-amp",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A gatsby plugin for Google AMP pages",
   "main": "index.js",
   "scripts": {
