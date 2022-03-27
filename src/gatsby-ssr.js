@@ -39,7 +39,10 @@ export const onPreRenderHTML = (
     const styles = headComponents.reduce((str, x) => {
       if (x.type === "style") {
         if (x.props.dangerouslySetInnerHTML) {
-          str += x.props.dangerouslySetInnerHTML.__html;
+          str += x.props.dangerouslySetInnerHTML.__html.replace(
+            /@charset[^;]*;/g,
+            ''
+          );
         }
       } else if (x.key && x.key === "TypographyStyle") {
         str = `${x.props.typography.toString()}${str}`;
