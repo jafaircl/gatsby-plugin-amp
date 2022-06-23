@@ -17,7 +17,7 @@
     "url": "https://github.com/jafaircl/gatsby-plugin-amp/issues"
   },
   "dependencies": {
-    "jsdom": "^13.0.0",
+    "jsdom": "^16.5.0",
     "lodash.flattendeep": "^4.4.0",
     "minimatch": "^3.0.4",
     "react": "^16.6.1"
